@@ -186,7 +186,6 @@ require([
                         group: group,
                         name: entry.name,
                         type: entry.type,
-                        url: entry.url,
                         version: entry.version
                     });
                 } else {
@@ -196,7 +195,6 @@ require([
                         hidden: true,
                         name: entry.name,
                         type: entry.type,
-                        url: entry.url,
                         version: entry.version
                     });
                 }
@@ -529,7 +527,7 @@ require([
      * Initialize search
      */
     var options = {
-      valueNames: [ 'nav-list-item', 'nav-list-item-url' ]
+      valueNames: [ 'nav-list-item' ]
     };
     var endpointsList = new List('scrollingNav', options);
 
