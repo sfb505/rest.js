@@ -2534,7 +2534,7 @@ define({ "api": [
     "url": "/installation/repositories",
     "title": "listRepos",
     "name": "listRepos",
-    "description": "<p>List repositories that the authenticated user has explicit permission (<code>:read</code>, <code>:write</code>, or <code>:admin</code>) to access for an installation.</p> <p>The authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.</p> <p>You must use an <a href=\"https://developer.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation\">installation access token</a> to access this endpoint.</p> <p><a href=\"https://developer.github.com/v3/apps/installations/#list-repositories\">REST API doc</a></p>",
+    "description": "<p>List repositories that an installation can access.</p> <p>You must use an <a href=\"https://developer.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation\">installation access token</a> to access this endpoint.</p> <p><a href=\"https://developer.github.com/v3/apps/installations/#list-repositories\">REST API doc</a></p>",
     "group": "Apps",
     "parameter": {
       "fields": {
@@ -8856,7 +8856,7 @@ define({ "api": [
     "url": "/meta",
     "title": "get",
     "name": "get",
-    "description": "<p>This endpoint provides a list of GitHub's IP addresses. For more information, see &quot;<a href=\"https://help.github.com/articles/about-github-s-ip-addresses/\">About GitHub's IP addresses</a>.&quot; <em>Note</em>*: We no longer support GitHub Services as of October 1, 2018, and GitHub Services will stop working on January 31, 2019. Please see the <a href=\"/changes/2018-10-01-denying-new-github-services\">blog post</a> for details. You can use the <a href=\"https://developer.github.com/v3/guides/replacing-github-services\">Replacing GitHub Services guide</a> to help you update your services to webhooks. <em>Note</em>*: We no longer support GitHub Services as of October 1, 2018, and GitHub Services will stop working on January 31, 2019. Please see the <a href=\"/changes/2018-10-01-denying-new-github-services\">blog post</a> for details. You can use the <a href=\"https://developer.github.com/v3/guides/replacing-github-services\">Replacing GitHub Services guide</a> to help you update your services to webhooks.</p> <p><a href=\"https://developer.github.com/v3/meta/#meta\">REST API doc</a></p>",
+    "description": "<p>This endpoint provides a list of GitHub's IP addresses. For more information, see &quot;<a href=\"https://help.github.com/articles/about-github-s-ip-addresses/\">About GitHub's IP addresses</a>.&quot;</p> <p><a href=\"https://developer.github.com/v3/meta/#meta\">REST API doc</a></p>",
     "group": "Meta",
     "examples": [
       {
@@ -17604,7 +17604,7 @@ define({ "api": [
     "url": "/repos/:owner/:repo/hooks",
     "title": "createHook",
     "name": "createHook",
-    "description": "<p>Repositories can have multiple webhooks installed. Each webhook should have a unique <code>config</code>. Multiple webhooks can share the same <code>config</code> as long as those webhooks do not have any <code>events</code> that overlap. <em>Note</em>*: We no longer support GitHub Services as of October 1, 2018, and GitHub Services will stop working on January 31, 2019. Please see the <a href=\"/changes/2018-10-01-denying-new-github-services\">blog post</a> for details. You can use the <a href=\"https://developer.github.com/v3/guides/replacing-github-services\">Replacing GitHub Services guide</a> to help you update your services to webhooks.</p> <p>Here's how you can create a hook that posts payloads in JSON format:</p> <p><a href=\"https://developer.github.com/v3/repos/hooks/#create-a-hook\">REST API doc</a></p>",
+    "description": "<p>Repositories can have multiple webhooks installed. Each webhook should have a unique <code>config</code>. Multiple webhooks can share the same <code>config</code> as long as those webhooks do not have any <code>events</code> that overlap.</p> <p>Here's how you can create a hook that posts payloads in JSON format:</p> <p><a href=\"https://developer.github.com/v3/repos/hooks/#create-a-hook\">REST API doc</a></p>",
     "group": "Repos",
     "parameter": {
       "fields": {
@@ -17626,9 +17626,10 @@ define({ "api": [
           {
             "group": "Parameter",
             "type": "string",
-            "optional": false,
+            "optional": true,
             "field": "name",
-            "description": "<p>Use &quot;web&quot; for a webhook. <strong>Note</strong>: Because we have <a href=\"/changes/2018-10-01-denying-new-github-services\">deprecated GitHub Services</a>, this endpoint now only accepts <code>web</code> as a valid value for the <code>name</code> parameter. However, when we implement <a href=\"/changes/2018-09-25-stricter-validation-coming-soon-in-the-rest-api/\">stricter API validation</a> beginning November 1, 2018, requests sending this value will be rejected because <code>name</code> will no longer be an accepted parameter.</p>"
+            "defaultValue": "web",
+            "description": "<p>Use <code>web</code> to create a webhook. This parameter only accepts the value <code>web</code>.</p>"
           },
           {
             "group": "Parameter",
@@ -20360,7 +20361,7 @@ define({ "api": [
             ],
             "optional": true,
             "field": "direction",
-            "defaultValue": "when using `full_name`: `asc`; otherwise `desc`",
+            "defaultValue": "`asc` when using `full_name`, otherwise `desc`",
             "description": "<p>Can be one of <code>asc</code> or <code>desc</code>.</p>"
           },
           {
@@ -20493,7 +20494,7 @@ define({ "api": [
             "type": "boolean",
             "optional": true,
             "field": "protected",
-            "description": "<p>Setting to <code>true</code> returns only protected branches and each branch in the response includes the <code>protected</code> and <code>protection</code> keys. When you omit this parameter, all branches are returned and protected branches do not contain the <code>protected</code> and <code>protection</code> keys.</p>"
+            "description": "<p>Setting to <code>true</code> returns only protected branches. When set to <code>false</code>, only unprotected branches are returned. Omitting this parameter returns all branches.</p>"
           },
           {
             "group": "Parameter",
@@ -21198,6 +21199,32 @@ define({ "api": [
           },
           {
             "group": "Parameter",
+            "type": "string",
+            "allowedValues": [
+              "created",
+              "updated",
+              "pushed",
+              "full_name"
+            ],
+            "optional": true,
+            "field": "sort",
+            "defaultValue": "created",
+            "description": "<p>Can be one of <code>created</code>, <code>updated</code>, <code>pushed</code>, <code>full_name</code>.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "allowedValues": [
+              "asc",
+              "desc"
+            ],
+            "optional": true,
+            "field": "direction",
+            "defaultValue": "when using `full_name`: `asc`, otherwise `desc`",
+            "description": "<p>Can be one of <code>asc</code> or <code>desc</code>.</p>"
+          },
+          {
+            "group": "Parameter",
             "type": "integer",
             "optional": true,
             "field": "per_page",
@@ -21218,12 +21245,12 @@ define({ "api": [
     "examples": [
       {
         "title": "async/await",
-        "content": "const result = await octokit.repos.listForOrg({org, type, per_page, page})",
+        "content": "const result = await octokit.repos.listForOrg({org, type, sort, direction, per_page, page})",
         "type": "js"
       },
       {
         "title": "Promise",
-        "content": "octokit.repos.listForOrg({org, type, per_page, page}).then(result => {})",
+        "content": "octokit.repos.listForOrg({org, type, sort, direction, per_page, page}).then(result => {})",
         "type": "js"
       }
     ],
@@ -21284,7 +21311,7 @@ define({ "api": [
             ],
             "optional": true,
             "field": "direction",
-            "defaultValue": "when using `full_name`: `asc`, otherwise `desc`",
+            "defaultValue": "`asc` when using `full_name`, otherwise `desc`",
             "description": "<p>Can be one of <code>asc</code> or <code>desc</code>.</p>"
           },
           {
@@ -26673,7 +26700,7 @@ define({ "api": [
     "url": "/user/emails",
     "title": "addEmails",
     "name": "addEmails",
-    "description": "<p><a href=\"https://developer.github.com/v3/users/emails/#add-email-addresses\">REST API doc</a></p>",
+    "description": "<p>This endpoint is accessible with the <code>user</code> scope.</p> <p><a href=\"https://developer.github.com/v3/users/emails/#add-email-addresses\">REST API doc</a></p>",
     "group": "Users",
     "parameter": {
       "fields": {
@@ -26939,7 +26966,7 @@ define({ "api": [
     "url": "/user/emails",
     "title": "deleteEmails",
     "name": "deleteEmails",
-    "description": "<p><a href=\"https://developer.github.com/v3/users/emails/#delete-email-addresses\">REST API doc</a></p>",
+    "description": "<p>This endpoint is accessible with the <code>user</code> scope.</p> <p><a href=\"https://developer.github.com/v3/users/emails/#delete-email-addresses\">REST API doc</a></p>",
     "group": "Users",
     "parameter": {
       "fields": {

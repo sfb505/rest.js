@@ -1951,9 +1951,7 @@ This example creates a content attachment for the domain `https://errors.ai/`.
 /**
  * @api {GET} /installation/repositories listRepos
  * @apiName listRepos
- * @apiDescription List repositories that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access for an installation.
-
-The authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.
+ * @apiDescription List repositories that an installation can access.
 
 You must use an [installation access token](https://developer.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation) to access this endpoint.
 
@@ -3757,10 +3755,6 @@ Similar to [the repository contents API](https://developer.github.com/v3/repos/c
  * @api {GET} /meta get
  * @apiName get
  * @apiDescription This endpoint provides a list of GitHub's IP addresses. For more information, see "[About GitHub's IP addresses](https://help.github.com/articles/about-github-s-ip-addresses/)."
-
-**Note**: We no longer support GitHub Services as of October 1, 2018, and GitHub Services will stop working on January 31, 2019. Please see the [blog post](/changes/2018-10-01-denying-new-github-services) for details. You can use the [Replacing GitHub Services guide](https://developer.github.com/v3/guides/replacing-github-services) to help you update your services to webhooks.
-
-**Note**: We no longer support GitHub Services as of October 1, 2018, and GitHub Services will stop working on January 31, 2019. Please see the [blog post](/changes/2018-10-01-denying-new-github-services) for details. You can use the [Replacing GitHub Services guide](https://developer.github.com/v3/guides/replacing-github-services) to help you update your services to webhooks.
 
 <a href="https://developer.github.com/v3/meta/#meta">REST API doc</a>
  * @apiGroup Meta
@@ -5747,7 +5741,7 @@ The authenticated user has explicit permission to access repositories they own, 
   
 Will cause a `422` error if used in the same request as **visibility** or **affiliation**. Will cause a `422` error if used in the same request as **visibility** or **affiliation**.
  * @apiParam {string=created,updated,pushed,full_name} [sort="full_name"]  Can be one of `created`, `updated`, `pushed`, `full_name`.
- * @apiParam {string=asc,desc} [direction="when using `full_name`: `asc`; otherwise `desc`"]  Can be one of `asc` or `desc`.
+ * @apiParam {string=asc,desc} [direction="`asc` when using `full_name`, otherwise `desc`"]  Can be one of `asc` or `desc`.
  * @apiParam {integer} [per_page="30"]  Results per page (max 100)
  * @apiParam {integer} [page="1"]  Page number of the results to fetch.
  * @apiExample {js} async/await
@@ -5768,7 +5762,7 @@ Will cause a `422` error if used in the same request as **visibility** or **affi
  * @apiParam {string} username  
  * @apiParam {string=all,owner,member} [type="owner"]  Can be one of `all`, `owner`, `member`.
  * @apiParam {string=created,updated,pushed,full_name} [sort="full_name"]  Can be one of `created`, `updated`, `pushed`, `full_name`.
- * @apiParam {string=asc,desc} [direction="when using `full_name`: `asc`, otherwise `desc`"]  Can be one of `asc` or `desc`.
+ * @apiParam {string=asc,desc} [direction="`asc` when using `full_name`, otherwise `desc`"]  Can be one of `asc` or `desc`.
  * @apiParam {integer} [per_page="30"]  Results per page (max 100)
  * @apiParam {integer} [page="1"]  Page number of the results to fetch.
  * @apiExample {js} async/await
@@ -5788,12 +5782,14 @@ Will cause a `422` error if used in the same request as **visibility** or **affi
  *
  * @apiParam {string} org  
  * @apiParam {string=all,public,private,forks,sources,member} [type="all"]  Can be one of `all`, `public`, `private`, `forks`, `sources`, `member`.
+ * @apiParam {string=created,updated,pushed,full_name} [sort="created"]  Can be one of `created`, `updated`, `pushed`, `full_name`.
+ * @apiParam {string=asc,desc} [direction="when using `full_name`: `asc`, otherwise `desc`"]  Can be one of `asc` or `desc`.
  * @apiParam {integer} [per_page="30"]  Results per page (max 100)
  * @apiParam {integer} [page="1"]  Page number of the results to fetch.
  * @apiExample {js} async/await
- * const result = await octokit.repos.listForOrg({org, type, per_page, page})
+ * const result = await octokit.repos.listForOrg({org, type, sort, direction, per_page, page})
  * @apiExample {js} Promise
- * octokit.repos.listForOrg({org, type, per_page, page}).then(result => {})
+ * octokit.repos.listForOrg({org, type, sort, direction, per_page, page}).then(result => {})
  */
 
 
@@ -6087,7 +6083,7 @@ If an organization owner has configured the organization to prevent members from
  *
  * @apiParam {string} owner  
  * @apiParam {string} repo  
- * @apiParam {boolean} [protected]  Setting to `true` returns only protected branches and each branch in the response includes the `protected` and `protection` keys. When you omit this parameter, all branches are returned and protected branches do not contain the `protected` and `protection` keys.
+ * @apiParam {boolean} [protected]  Setting to `true` returns only protected branches. When set to `false`, only unprotected branches are returned. Omitting this parameter returns all branches.
  * @apiParam {integer} [per_page="30"]  Results per page (max 100)
  * @apiParam {integer} [page="1"]  Page number of the results to fetch.
  * @apiExample {js} async/await
@@ -8323,8 +8319,6 @@ Additionally, a combined `state` is returned. The `state` is one of:
  * @apiName createHook
  * @apiDescription Repositories can have multiple webhooks installed. Each webhook should have a unique `config`. Multiple webhooks can share the same `config` as long as those webhooks do not have any `events` that overlap.
 
-**Note**: We no longer support GitHub Services as of October 1, 2018, and GitHub Services will stop working on January 31, 2019. Please see the [blog post](/changes/2018-10-01-denying-new-github-services) for details. You can use the [Replacing GitHub Services guide](https://developer.github.com/v3/guides/replacing-github-services) to help you update your services to webhooks.
-
 Here's how you can create a hook that posts payloads in JSON format:
 
 <a href="https://developer.github.com/v3/repos/hooks/#create-a-hook">REST API doc</a>
@@ -8332,7 +8326,7 @@ Here's how you can create a hook that posts payloads in JSON format:
  *
  * @apiParam {string} owner  
  * @apiParam {string} repo  
- * @apiParam {string} name  Use "web" for a webhook. **Note**: Because we have [deprecated GitHub Services](/changes/2018-10-01-denying-new-github-services), this endpoint now only accepts `web` as a valid value for the `name` parameter. However, when we implement [stricter API validation](/changes/2018-09-25-stricter-validation-coming-soon-in-the-rest-api/) beginning November 1, 2018, requests sending this value will be rejected because `name` will no longer be an accepted parameter.
+ * @apiParam {string} [name="web"]  Use `web` to create a webhook. This parameter only accepts the value `web`.
  * @apiParam {object} config  Key/value pairs to provide settings for this webhook. [These are defined below](#create-hook-config-params).
  * @apiParam {string} config:url  The URL to which the payloads will be delivered.
  * @apiParam {string} [config:content_type]  The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.
@@ -9539,7 +9533,9 @@ If the user is not blocked:
 /**
  * @api {POST} /user/emails addEmails
  * @apiName addEmails
- * @apiDescription <a href="https://developer.github.com/v3/users/emails/#add-email-addresses">REST API doc</a>
+ * @apiDescription This endpoint is accessible with the `user` scope.
+
+<a href="https://developer.github.com/v3/users/emails/#add-email-addresses">REST API doc</a>
  * @apiGroup Users
  *
  * @apiParam {string[]} emails  Adds one or more email addresses to your GitHub account. Must contain at least one email address. **Note:** Alternatively, you can pass a single email address or an `array` of emails addresses directly, but we recommend that you pass an object using the `emails` key.
@@ -9553,7 +9549,9 @@ If the user is not blocked:
 /**
  * @api {DELETE} /user/emails deleteEmails
  * @apiName deleteEmails
- * @apiDescription <a href="https://developer.github.com/v3/users/emails/#delete-email-addresses">REST API doc</a>
+ * @apiDescription This endpoint is accessible with the `user` scope.
+
+<a href="https://developer.github.com/v3/users/emails/#delete-email-addresses">REST API doc</a>
  * @apiGroup Users
  *
  * @apiParam {string[]} emails  Deletes one or more email addresses from your GitHub account. Must contain at least one email address. **Note:** Alternatively, you can pass a single email address or an `array` of emails addresses directly, but we recommend that you pass an object using the `emails` key.
