@@ -205,7 +205,7 @@ define({ "api": [
     "url": "/notifications/threads/:thread_id/subscription",
     "title": "getThreadSubscription",
     "name": "getThreadSubscription",
-    "description": "<p>This checks to see if the current user is subscribed to a thread. You can also <a href=\"https://developer.github.com/v3/activity/watching/#get-a-repository-subscription\">get a Repository subscription</a>.</p> <p>Note that subscriptions are only generated if a user is participating in a conversation--for example, they've replied to the thread, were <strong>@mentioned</strong>, or manually subscribe to a thread.</p> <p><a href=\"https://developer.github.com/v3/activity/notifications/#get-a-thread-subscription\">REST API doc</a></p>",
+    "description": "<p>This checks to see if the current user is subscribed to a thread. You can also <a href=\"https://developer.github.com/v3/activity/watching/#get-a-repository-subscription\">get a repository subscription</a>.</p> <p>Note that subscriptions are only generated if a user is participating in a conversation--for example, they've replied to the thread, were <strong>@mentioned</strong>, or manually subscribe to a thread.</p> <p><a href=\"https://developer.github.com/v3/activity/notifications/#get-a-thread-subscription\">REST API doc</a></p>",
     "group": "Activity",
     "parameter": {
       "fields": {
@@ -6317,7 +6317,7 @@ define({ "api": [
             "type": "string",
             "optional": false,
             "field": "name",
-            "description": "<p>The name of the label. Emoji can be added to label names, using either native emoji or colon-style markup. For example, typing <code>:strawberry:</code> will render the emoji <img src=\"https://a248.e.akamai.net/assets.github.com/images/icons/emoji/unicode/1f353.png\" alt=\":strawberry:\" title=\":strawberry:\">. For a full list of available emoji and codes, see <a href=\"http://emoji-cheat-sheet.com/\">emoji-cheat-sheet.com</a>.</p>"
+            "description": "<p>The name of the label. Emoji can be added to label names, using either native emoji or colon-style markup. For example, typing <code>:strawberry:</code> will render the emoji <img src=\"https://github.githubassets.com/images/icons/emoji/unicode/1f353.png\" alt=\":strawberry:\" title=\":strawberry:\">. For a full list of available emoji and codes, see <a href=\"http://emoji-cheat-sheet.com/\">emoji-cheat-sheet.com</a>.</p>"
           },
           {
             "group": "Parameter",
@@ -8540,7 +8540,7 @@ define({ "api": [
             "type": "string",
             "optional": true,
             "field": "name",
-            "description": "<p>The new name of the label. Emoji can be added to label names, using either native emoji or colon-style markup. For example, typing <code>:strawberry:</code> will render the emoji <img src=\"https://a248.e.akamai.net/assets.github.com/images/icons/emoji/unicode/1f353.png\" alt=\":strawberry:\" title=\":strawberry:\">. For a full list of available emoji and codes, see <a href=\"http://emoji-cheat-sheet.com/\">emoji-cheat-sheet.com</a>.</p>"
+            "description": "<p>The new name of the label. Emoji can be added to label names, using either native emoji or colon-style markup. For example, typing <code>:strawberry:</code> will render the emoji <img src=\"https://github.githubassets.com/images/icons/emoji/unicode/1f353.png\" alt=\":strawberry:\" title=\":strawberry:\">. For a full list of available emoji and codes, see <a href=\"http://emoji-cheat-sheet.com/\">emoji-cheat-sheet.com</a>.</p>"
           },
           {
             "group": "Parameter",
@@ -12578,6 +12578,65 @@ define({ "api": [
   },
   {
     "type": "POST",
+    "url": "/user/projects",
+    "title": "createForAuthenticatedUser",
+    "name": "createForAuthenticatedUser",
+    "description": "<p><a href=\"https://developer.github.com/v3/projects/#create-a-user-project\">REST API doc</a></p>",
+    "group": "Projects",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "name",
+            "description": "<p>The name of the project.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": true,
+            "field": "body",
+            "description": "<p>The description of the project.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "integer",
+            "optional": true,
+            "field": "per_page",
+            "defaultValue": "30",
+            "description": "<p>Results per page (max 100)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "integer",
+            "optional": true,
+            "field": "page",
+            "defaultValue": "1",
+            "description": "<p>Page number of the results to fetch.</p>"
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "async/await",
+        "content": "const result = await octokit.projects.createForAuthenticatedUser({name, body, per_page, page})",
+        "type": "js"
+      },
+      {
+        "title": "Promise",
+        "content": "octokit.projects.createForAuthenticatedUser({name, body, per_page, page}).then(result => {})",
+        "type": "js"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "doc/apidoc.js",
+    "groupTitle": "Projects"
+  },
+  {
+    "type": "POST",
     "url": "/orgs/:org/projects",
     "title": "createForOrg",
     "name": "createForOrg",
@@ -12605,7 +12664,7 @@ define({ "api": [
             "type": "string",
             "optional": true,
             "field": "body",
-            "description": "<p>The body of the project.</p>"
+            "description": "<p>The description of the project.</p>"
           },
           {
             "group": "Parameter",
@@ -12678,7 +12737,7 @@ define({ "api": [
             "type": "string",
             "optional": true,
             "field": "body",
-            "description": "<p>The body of the project.</p>"
+            "description": "<p>The description of the project.</p>"
           },
           {
             "group": "Parameter",
@@ -13267,6 +13326,71 @@ define({ "api": [
     "groupTitle": "Projects"
   },
   {
+    "type": "GET",
+    "url": "/users/:username/projects",
+    "title": "listForUser",
+    "name": "listForUser",
+    "description": "<p><a href=\"https://developer.github.com/v3/projects/#list-user-projects\">REST API doc</a></p>",
+    "group": "Projects",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "username",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "allowedValues": [
+              "open",
+              "closed",
+              "all"
+            ],
+            "optional": true,
+            "field": "state",
+            "defaultValue": "open",
+            "description": "<p>Indicates the state of the projects to return. Can be either <code>open</code>, <code>closed</code>, or <code>all</code>.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "integer",
+            "optional": true,
+            "field": "per_page",
+            "defaultValue": "30",
+            "description": "<p>Results per page (max 100)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "integer",
+            "optional": true,
+            "field": "page",
+            "defaultValue": "1",
+            "description": "<p>Page number of the results to fetch.</p>"
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "async/await",
+        "content": "const result = await octokit.projects.listForUser({username, state, per_page, page})",
+        "type": "js"
+      },
+      {
+        "title": "Promise",
+        "content": "octokit.projects.listForUser({username, state, per_page, page}).then(result => {})",
+        "type": "js"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "doc/apidoc.js",
+    "groupTitle": "Projects"
+  },
+  {
     "type": "POST",
     "url": "/projects/columns/cards/:card_id/moves",
     "title": "moveCard",
@@ -13474,7 +13598,7 @@ define({ "api": [
             "type": "string",
             "optional": true,
             "field": "body",
-            "description": "<p>The body of the project.</p>"
+            "description": "<p>The description of the project.</p>"
           },
           {
             "group": "Parameter",
@@ -13492,14 +13616,14 @@ define({ "api": [
             "type": "string",
             "optional": true,
             "field": "organization_permission",
-            "description": "<p>The permission level that determines whether all members of the project's organization can see and/or make changes to the project. If an organization member belongs to a team with a higher level of access or is a collaborator with a higher level of access, their permission level is not lowered by <code>organization_permission</code>. For information on changing access for a team or collaborator, see <a href=\"https://developer.github.com/v3/teams/#add-or-update-team-project\">Add or update team project</a> or <a href=\"https://developer.github.com/v3/projects/collaborators/#add-user-as-a-collaborator\">Add user as a collaborator</a>.<br> <em>Note:</em>* Updating a project's <code>organization_permission</code> requires <code>admin</code> access to the project. Setting this permission is only available for organization projects.</p> <p>Can be one of:<br> * <code>read</code> - Organization members can read, but not write to or administer this project.<br> * <code>write</code> - Organization members can read and write, but not administer this project.<br> * <code>admin</code> - Organization members can read, write and administer this project.<br> * <code>none</code> - Organization members can only see this project if it is public.</p>"
+            "description": "<p>The permission level that determines whether all members of the project's organization can see and/or make changes to the project. Setting <code>organization_permission</code> is only available for organization projects. If an organization member belongs to a team with a higher level of access or is a collaborator with a higher level of access, their permission level is not lowered by <code>organization_permission</code>. For information on changing access for a team or collaborator, see <a href=\"https://developer.github.com/v3/teams/#add-or-update-team-project\">Add or update team project</a> or <a href=\"https://developer.github.com/v3/projects/collaborators/#add-user-as-a-collaborator\">Add user as a collaborator</a>.<br> <em>Note:</em>* Updating a project's <code>organization_permission</code> requires <code>admin</code> access to the project.</p> <p>Can be one of:<br> * <code>read</code> - Organization members can read, but not write to or administer this project.<br> * <code>write</code> - Organization members can read and write, but not administer this project.<br> * <code>admin</code> - Organization members can read, write and administer this project.<br> * <code>none</code> - Organization members can only see this project if it is public.</p>"
           },
           {
             "group": "Parameter",
             "type": "boolean",
             "optional": true,
             "field": "private",
-            "description": "<p>Sets the visibility of the project within the organization. <strong>Note:</strong> Updating a project's visibility requires <code>admin</code> access to the project. Setting visibility is only available for organization projects.</p> <p>Can be one of:<br> * <code>false</code> - Anyone can see the project.<br> * <code>true</code> - Organization members with the appropriate <code>organization_permission</code> can see the project.</p>"
+            "description": "<p>Sets the visibility of a project board. Setting <code>private</code> is only available for organization and user projects. <strong>Note:</strong> Updating a project's visibility requires <code>admin</code> access to the project.</p> <p>Can be one of:<br> * <code>false</code> - Anyone can see the project.<br> * <code>true</code> - Only the user can view a project board created on a user account. Organization members with the appropriate <code>organization_permission</code> can see project boards in an organization account.</p>"
           },
           {
             "group": "Parameter",
@@ -13684,7 +13808,7 @@ define({ "api": [
     "url": "/repos/:owner/:repo/pulls",
     "title": "create",
     "name": "create",
-    "description": "<p><strong>Note:</strong> To open a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open a pull request.</p> <p>This endpoint triggers <a href=\"https://help.github.com/articles/about-notifications/\">notifications</a>. Creating content too quickly using this endpoint may result in abuse rate limiting. See &quot;<a href=\"https://developer.github.com/v3/#abuse-rate-limits\">Abuse rate limits</a>&quot; and &quot;<a href=\"https://developer.github.com/v3/guides/best-practices-for-integrators/#dealing-with-abuse-rate-limits\">Dealing with abuse rate limits</a>&quot; for details.</p> <p><a href=\"https://developer.github.com/v3/pulls/#create-a-pull-request\">REST API doc</a></p>",
+    "description": "<p>Draft pull requests are available in public repositories with GitHub Free and GitHub Pro, and in public and private repositories with GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see <a href=\"https://help.github.com/articles/github-s-billing-plans\">GitHub's billing plans</a> in the GitHub Help documentation.</p> <p>To open or update a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open or update a pull request.</p> <p>This endpoint triggers <a href=\"https://help.github.com/articles/about-notifications/\">notifications</a>. Creating content too quickly using this endpoint may result in abuse rate limiting. See &quot;<a href=\"https://developer.github.com/v3/#abuse-rate-limits\">Abuse rate limits</a>&quot; and &quot;<a href=\"https://developer.github.com/v3/guides/best-practices-for-integrators/#dealing-with-abuse-rate-limits\">Dealing with abuse rate limits</a>&quot; for details.</p> <p><a href=\"https://developer.github.com/v3/pulls/#create-a-pull-request\">REST API doc</a></p>",
     "group": "Pulls",
     "parameter": {
       "fields": {
@@ -13904,7 +14028,7 @@ define({ "api": [
     "url": "/repos/:owner/:repo/pulls",
     "title": "createFromIssue",
     "name": "createFromIssue",
-    "description": "<p><strong>Note:</strong> To open a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open a pull request.</p> <p>This endpoint triggers <a href=\"https://help.github.com/articles/about-notifications/\">notifications</a>. Creating content too quickly using this endpoint may result in abuse rate limiting. See &quot;<a href=\"https://developer.github.com/v3/#abuse-rate-limits\">Abuse rate limits</a>&quot; and &quot;<a href=\"https://developer.github.com/v3/guides/best-practices-for-integrators/#dealing-with-abuse-rate-limits\">Dealing with abuse rate limits</a>&quot; for details.</p> <p><a href=\"https://developer.github.com/v3/pulls/#create-a-pull-request\">REST API doc</a></p>",
+    "description": "<p>Draft pull requests are available in public repositories with GitHub Free and GitHub Pro, and in public and private repositories with GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see <a href=\"https://help.github.com/articles/github-s-billing-plans\">GitHub's billing plans</a> in the GitHub Help documentation.</p> <p>To open or update a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open or update a pull request.</p> <p>This endpoint triggers <a href=\"https://help.github.com/articles/about-notifications/\">notifications</a>. Creating content too quickly using this endpoint may result in abuse rate limiting. See &quot;<a href=\"https://developer.github.com/v3/#abuse-rate-limits\">Abuse rate limits</a>&quot; and &quot;<a href=\"https://developer.github.com/v3/guides/best-practices-for-integrators/#dealing-with-abuse-rate-limits\">Dealing with abuse rate limits</a>&quot; for details.</p> <p><a href=\"https://developer.github.com/v3/pulls/#create-a-pull-request\">REST API doc</a></p>",
     "group": "Pulls",
     "parameter": {
       "fields": {
@@ -14378,7 +14502,7 @@ define({ "api": [
     "url": "/repos/:owner/:repo/pulls/:number",
     "title": "get",
     "name": "get",
-    "description": "<p>Lists details of a pull request by providing its number.</p> <p>When you get, <a href=\"https://developer.github.com/v3/pulls/#create-a-pull-request\">create</a>, or <a href=\"https://developer.github.com/v3/pulls/#update-a-pull-request\">edit</a> a pull request, GitHub creates a merge commit to test whether the pull request can be automatically merged into the base branch. This test commit is not added to the base branch or the head branch. You can review the status of the test commit using the <code>mergeable</code> key. For more information, see &quot;<a href=\"https://developer.github.com/v3/git/#checking-mergeability-of-pull-requests\">Checking mergeability of pull requests</a>&quot;.</p> <p>The value of the <code>mergeable</code> attribute can be <code>true</code>, <code>false</code>, or <code>null</code>. If the value is <code>null</code>, then GitHub has started a background job to compute the mergeability. After giving the job time to complete, resubmit the request. When the job finishes, you will see a non-<code>null</code> value for the <code>mergeable</code> attribute in the response. If <code>mergeable</code> is <code>true</code>, then <code>merge_commit_sha</code> will be the SHA of the <em>test</em> merge commit.</p> <p>The value of the <code>merge_commit_sha</code> attribute changes depending on the state of the pull request. Before merging a pull request, the <code>merge_commit_sha</code> attribute holds the SHA of the <em>test</em> merge commit. After merging a pull request, the <code>merge_commit_sha</code> attribute changes depending on how you merged the pull request: If merged as a <a href=\"https://help.github.com/articles/about-merge-methods-on-github/\">merge commit</a>, <code>merge_commit_sha</code> represents the SHA of the merge commit. If merged via a <a href=\"https://help.github.com/articles/about-merge-methods-on-github/#squashing-your-merge-commits\">squash</a>, <code>merge_commit_sha</code> represents the SHA of the squashed commit on the base branch. If <a href=\"https://help.github.com/articles/about-merge-methods-on-github/#rebasing-and-merging-your-commits\">rebased</a>, <code>merge_commit_sha</code> represents the commit that the base branch was updated to.</p> <p>Pass the appropriate <a href=\"https://developer.github.com/v3/media/#commits-commit-comparison-and-pull-requests\">media type</a> to fetch diff and patch formats.</p> <p><a href=\"https://developer.github.com/v3/pulls/#get-a-single-pull-request\">REST API doc</a></p>",
+    "description": "<p>Draft pull requests are available in public repositories with GitHub Free and GitHub Pro, and in public and private repositories with GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see <a href=\"https://help.github.com/articles/github-s-billing-plans\">GitHub's billing plans</a> in the GitHub Help documentation.</p> <p>Lists details of a pull request by providing its number.</p> <p>When you get, <a href=\"https://developer.github.com/v3/pulls/#create-a-pull-request\">create</a>, or <a href=\"https://developer.github.com/v3/pulls/#update-a-pull-request\">edit</a> a pull request, GitHub creates a merge commit to test whether the pull request can be automatically merged into the base branch. This test commit is not added to the base branch or the head branch. You can review the status of the test commit using the <code>mergeable</code> key. For more information, see &quot;<a href=\"https://developer.github.com/v3/git/#checking-mergeability-of-pull-requests\">Checking mergeability of pull requests</a>&quot;.</p> <p>The value of the <code>mergeable</code> attribute can be <code>true</code>, <code>false</code>, or <code>null</code>. If the value is <code>null</code>, then GitHub has started a background job to compute the mergeability. After giving the job time to complete, resubmit the request. When the job finishes, you will see a non-<code>null</code> value for the <code>mergeable</code> attribute in the response. If <code>mergeable</code> is <code>true</code>, then <code>merge_commit_sha</code> will be the SHA of the <em>test</em> merge commit.</p> <p>The value of the <code>merge_commit_sha</code> attribute changes depending on the state of the pull request. Before merging a pull request, the <code>merge_commit_sha</code> attribute holds the SHA of the <em>test</em> merge commit. After merging a pull request, the <code>merge_commit_sha</code> attribute changes depending on how you merged the pull request: If merged as a <a href=\"https://help.github.com/articles/about-merge-methods-on-github/\">merge commit</a>, <code>merge_commit_sha</code> represents the SHA of the merge commit. If merged via a <a href=\"https://help.github.com/articles/about-merge-methods-on-github/#squashing-your-merge-commits\">squash</a>, <code>merge_commit_sha</code> represents the SHA of the squashed commit on the base branch. If <a href=\"https://help.github.com/articles/about-merge-methods-on-github/#rebasing-and-merging-your-commits\">rebased</a>, <code>merge_commit_sha</code> represents the commit that the base branch was updated to.</p> <p>Pass the appropriate <a href=\"https://developer.github.com/v3/media/#commits-commit-comparison-and-pull-requests\">media type</a> to fetch diff and patch formats.</p> <p><a href=\"https://developer.github.com/v3/pulls/#get-a-single-pull-request\">REST API doc</a></p>",
     "group": "Pulls",
     "parameter": {
       "fields": {
@@ -14608,7 +14732,7 @@ define({ "api": [
     "url": "/repos/:owner/:repo/pulls",
     "title": "list",
     "name": "list",
-    "description": "<p><a href=\"https://developer.github.com/v3/pulls/#list-pull-requests\">REST API doc</a></p>",
+    "description": "<p>Draft pull requests are available in public repositories with GitHub Free and GitHub Pro, and in public and private repositories with GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see <a href=\"https://help.github.com/articles/github-s-billing-plans\">GitHub's billing plans</a> in the GitHub Help documentation.</p> <p><a href=\"https://developer.github.com/v3/pulls/#list-pull-requests\">REST API doc</a></p>",
     "group": "Pulls",
     "parameter": {
       "fields": {
@@ -15328,7 +15452,7 @@ define({ "api": [
     "url": "/repos/:owner/:repo/pulls/:number",
     "title": "update",
     "name": "update",
-    "description": "<p><strong>Note:</strong> To open a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open a pull request.</p> <p><a href=\"https://developer.github.com/v3/pulls/#update-a-pull-request\">REST API doc</a></p>",
+    "description": "<p>Draft pull requests are available in public repositories with GitHub Free and GitHub Pro, and in public and private repositories with GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see <a href=\"https://help.github.com/articles/github-s-billing-plans\">GitHub's billing plans</a> in the GitHub Help documentation.</p> <p>To open or update a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open or update a pull request.</p> <p><a href=\"https://developer.github.com/v3/pulls/#update-a-pull-request\">REST API doc</a></p>",
     "group": "Pulls",
     "parameter": {
       "fields": {
@@ -19478,7 +19602,7 @@ define({ "api": [
     "url": "/repos/:owner/:repo/releases/latest",
     "title": "getLatestRelease",
     "name": "getLatestRelease",
-    "description": "<p>View the latest published full release for the repository. Draft releases and prereleases are not returned by this endpoint.</p> <p><a href=\"https://developer.github.com/v3/repos/releases/#get-the-latest-release\">REST API doc</a></p>",
+    "description": "<p>View the latest published full release for the repository.</p> <p>The latest release is the most recent non-prerelease, non-draft release, sorted by the <code>created_at</code> attribute. The <code>created_at</code> attribute is the date of the commit used for the release, and not the date when the release was drafted or published.</p> <p><a href=\"https://developer.github.com/v3/repos/releases/#get-the-latest-release\">REST API doc</a></p>",
     "group": "Repos",
     "parameter": {
       "fields": {

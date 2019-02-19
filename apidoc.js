@@ -572,7 +572,7 @@ Deleting an OAuth application's grant will also delete all OAuth tokens associat
 /**
  * @api {GET} /notifications/threads/:thread_id/subscription getThreadSubscription
  * @apiName getThreadSubscription
- * @apiDescription This checks to see if the current user is subscribed to a thread. You can also [get a Repository subscription](https://developer.github.com/v3/activity/watching/#get-a-repository-subscription).
+ * @apiDescription This checks to see if the current user is subscribed to a thread. You can also [get a repository subscription](https://developer.github.com/v3/activity/watching/#get-a-repository-subscription).
 
 Note that subscriptions are only generated if a user is participating in a conversation--for example, they've replied to the thread, were **@mentioned**, or manually subscribe to a thread.
 
@@ -2832,7 +2832,7 @@ This example removes two of three assignees, leaving the `octocat` assignee.
  *
  * @apiParam {string} owner  
  * @apiParam {string} repo  
- * @apiParam {string} name  The name of the label. Emoji can be added to label names, using either native emoji or colon-style markup. For example, typing `:strawberry:` will render the emoji ![:strawberry:](https://a248.e.akamai.net/assets.github.com/images/icons/emoji/unicode/1f353.png ":strawberry:"). For a full list of available emoji and codes, see [emoji-cheat-sheet.com](http://emoji-cheat-sheet.com/).
+ * @apiParam {string} name  The name of the label. Emoji can be added to label names, using either native emoji or colon-style markup. For example, typing `:strawberry:` will render the emoji ![:strawberry:](https://github.githubassets.com/images/icons/emoji/unicode/1f353.png ":strawberry:"). For a full list of available emoji and codes, see [emoji-cheat-sheet.com](http://emoji-cheat-sheet.com/).
  * @apiParam {string} color  The [hexadecimal color code](http://www.color-hex.com/) for the label, without the leading `#`.
  * @apiParam {string} [description]  A short description of the label.
  * @apiExample {js} async/await
@@ -2851,7 +2851,7 @@ This example removes two of three assignees, leaving the `octocat` assignee.
  * @apiParam {string} owner  
  * @apiParam {string} repo  
  * @apiParam {string} current_name  
- * @apiParam {string} [name]  The new name of the label. Emoji can be added to label names, using either native emoji or colon-style markup. For example, typing `:strawberry:` will render the emoji ![:strawberry:](https://a248.e.akamai.net/assets.github.com/images/icons/emoji/unicode/1f353.png ":strawberry:"). For a full list of available emoji and codes, see [emoji-cheat-sheet.com](http://emoji-cheat-sheet.com/).
+ * @apiParam {string} [name]  The new name of the label. Emoji can be added to label names, using either native emoji or colon-style markup. For example, typing `:strawberry:` will render the emoji ![:strawberry:](https://github.githubassets.com/images/icons/emoji/unicode/1f353.png ":strawberry:"). For a full list of available emoji and codes, see [emoji-cheat-sheet.com](http://emoji-cheat-sheet.com/).
  * @apiParam {string} [color]  The [hexadecimal color code](http://www.color-hex.com/) for the label, without the leading `#`.
  * @apiParam {string} [description]  A short description of the label.
  * @apiExample {js} async/await
@@ -4510,6 +4510,23 @@ This endpoint triggers [notifications](https://help.github.com/articles/about-no
 
 
 /**
+ * @api {GET} /users/:username/projects listForUser
+ * @apiName listForUser
+ * @apiDescription <a href="https://developer.github.com/v3/projects/#list-user-projects">REST API doc</a>
+ * @apiGroup Projects
+ *
+ * @apiParam {string} username  
+ * @apiParam {string=open,closed,all} [state="open"]  Indicates the state of the projects to return. Can be either `open`, `closed`, or `all`.
+ * @apiParam {integer} [per_page="30"]  Results per page (max 100)
+ * @apiParam {integer} [page="1"]  Page number of the results to fetch.
+ * @apiExample {js} async/await
+ * const result = await octokit.projects.listForUser({username, state, per_page, page})
+ * @apiExample {js} Promise
+ * octokit.projects.listForUser({username, state, per_page, page}).then(result => {})
+ */
+
+
+/**
  * @api {GET} /projects/:project_id get
  * @apiName get
  * @apiDescription **Note**: The status code may also be `401` or `410`, depending on the scope of the authenticating token.
@@ -4538,7 +4555,7 @@ This endpoint triggers [notifications](https://help.github.com/articles/about-no
  * @apiParam {string} owner  
  * @apiParam {string} repo  
  * @apiParam {string} name  The name of the project.
- * @apiParam {string} [body]  The body of the project.
+ * @apiParam {string} [body]  The description of the project.
  * @apiParam {integer} [per_page="30"]  Results per page (max 100)
  * @apiParam {integer} [page="1"]  Page number of the results to fetch.
  * @apiExample {js} async/await
@@ -4558,13 +4575,30 @@ This endpoint triggers [notifications](https://help.github.com/articles/about-no
  *
  * @apiParam {string} org  
  * @apiParam {string} name  The name of the project.
- * @apiParam {string} [body]  The body of the project.
+ * @apiParam {string} [body]  The description of the project.
  * @apiParam {integer} [per_page="30"]  Results per page (max 100)
  * @apiParam {integer} [page="1"]  Page number of the results to fetch.
  * @apiExample {js} async/await
  * const result = await octokit.projects.createForOrg({org, name, body, per_page, page})
  * @apiExample {js} Promise
  * octokit.projects.createForOrg({org, name, body, per_page, page}).then(result => {})
+ */
+
+
+/**
+ * @api {POST} /user/projects createForAuthenticatedUser
+ * @apiName createForAuthenticatedUser
+ * @apiDescription <a href="https://developer.github.com/v3/projects/#create-a-user-project">REST API doc</a>
+ * @apiGroup Projects
+ *
+ * @apiParam {string} name  The name of the project.
+ * @apiParam {string} [body]  The description of the project.
+ * @apiParam {integer} [per_page="30"]  Results per page (max 100)
+ * @apiParam {integer} [page="1"]  Page number of the results to fetch.
+ * @apiExample {js} async/await
+ * const result = await octokit.projects.createForAuthenticatedUser({name, body, per_page, page})
+ * @apiExample {js} Promise
+ * octokit.projects.createForAuthenticatedUser({name, body, per_page, page}).then(result => {})
  */
 
 
@@ -4578,22 +4612,22 @@ This endpoint triggers [notifications](https://help.github.com/articles/about-no
  *
  * @apiParam {integer} project_id  
  * @apiParam {string} [name]  The name of the project.
- * @apiParam {string} [body]  The body of the project.
+ * @apiParam {string} [body]  The description of the project.
  * @apiParam {string=open,closed} [state]  State of the project. Either `open` or `closed`.
- * @apiParam {string} [organization_permission]  The permission level that determines whether all members of the project's organization can see and/or make changes to the project. If an organization member belongs to a team with a higher level of access or is a collaborator with a higher level of access, their permission level is not lowered by `organization_permission`. For information on changing access for a team or collaborator, see [Add or update team project](https://developer.github.com/v3/teams/#add-or-update-team-project) or [Add user as a collaborator](https://developer.github.com/v3/projects/collaborators/#add-user-as-a-collaborator).  
+ * @apiParam {string} [organization_permission]  The permission level that determines whether all members of the project's organization can see and/or make changes to the project. Setting `organization_permission` is only available for organization projects. If an organization member belongs to a team with a higher level of access or is a collaborator with a higher level of access, their permission level is not lowered by `organization_permission`. For information on changing access for a team or collaborator, see [Add or update team project](https://developer.github.com/v3/teams/#add-or-update-team-project) or [Add user as a collaborator](https://developer.github.com/v3/projects/collaborators/#add-user-as-a-collaborator).  
   
-**Note:** Updating a project's `organization_permission` requires `admin` access to the project. Setting this permission is only available for organization projects.  
+**Note:** Updating a project's `organization_permission` requires `admin` access to the project.  
   
 Can be one of:  
 \* `read` - Organization members can read, but not write to or administer this project.  
 \* `write` - Organization members can read and write, but not administer this project.  
 \* `admin` - Organization members can read, write and administer this project.  
 \* `none` - Organization members can only see this project if it is public.
- * @apiParam {boolean} [private]  Sets the visibility of the project within the organization. **Note:** Updating a project's visibility requires `admin` access to the project. Setting visibility is only available for organization projects.  
+ * @apiParam {boolean} [private]  Sets the visibility of a project board. Setting `private` is only available for organization and user projects. **Note:** Updating a project's visibility requires `admin` access to the project.  
   
 Can be one of:  
 \* `false` - Anyone can see the project.  
-\* `true` - Organization members with the appropriate `organization_permission` can see the project.
+\* `true` - Only the user can view a project board created on a user account. Organization members with the appropriate `organization_permission` can see project boards in an organization account.
  * @apiParam {integer} [per_page="30"]  Results per page (max 100)
  * @apiParam {integer} [page="1"]  Page number of the results to fetch.
  * @apiExample {js} async/await
@@ -4892,7 +4926,9 @@ Be aware that the `id` of a pull request returned from "Issues" endpoints will b
 /**
  * @api {GET} /repos/:owner/:repo/pulls list
  * @apiName list
- * @apiDescription <a href="https://developer.github.com/v3/pulls/#list-pull-requests">REST API doc</a>
+ * @apiDescription Draft pull requests are available in public repositories with GitHub Free and GitHub Pro, and in public and private repositories with GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's billing plans](https://help.github.com/articles/github-s-billing-plans) in the GitHub Help documentation.
+
+<a href="https://developer.github.com/v3/pulls/#list-pull-requests">REST API doc</a>
  * @apiGroup Pulls
  *
  * @apiParam {string} owner  
@@ -4914,7 +4950,9 @@ Be aware that the `id` of a pull request returned from "Issues" endpoints will b
 /**
  * @api {GET} /repos/:owner/:repo/pulls/:number get
  * @apiName get
- * @apiDescription Lists details of a pull request by providing its number.
+ * @apiDescription Draft pull requests are available in public repositories with GitHub Free and GitHub Pro, and in public and private repositories with GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's billing plans](https://help.github.com/articles/github-s-billing-plans) in the GitHub Help documentation.
+
+Lists details of a pull request by providing its number.
 
 When you get, [create](https://developer.github.com/v3/pulls/#create-a-pull-request), or [edit](https://developer.github.com/v3/pulls/#update-a-pull-request) a pull request, GitHub creates a merge commit to test whether the pull request can be automatically merged into the base branch. This test commit is not added to the base branch or the head branch. You can review the status of the test commit using the `mergeable` key. For more information, see "[Checking mergeability of pull requests](https://developer.github.com/v3/git/#checking-mergeability-of-pull-requests)".
 
@@ -4944,7 +4982,9 @@ Pass the appropriate [media type](https://developer.github.com/v3/media/#commits
 /**
  * @api {POST} /repos/:owner/:repo/pulls create
  * @apiName create
- * @apiDescription **Note:** To open a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open a pull request.
+ * @apiDescription Draft pull requests are available in public repositories with GitHub Free and GitHub Pro, and in public and private repositories with GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's billing plans](https://help.github.com/articles/github-s-billing-plans) in the GitHub Help documentation.
+
+To open or update a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open or update a pull request.
 
 This endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See "[Abuse rate limits](https://developer.github.com/v3/#abuse-rate-limits)" and "[Dealing with abuse rate limits](https://developer.github.com/v3/guides/best-practices-for-integrators/#dealing-with-abuse-rate-limits)" for details.
 
@@ -4968,7 +5008,9 @@ This endpoint triggers [notifications](https://help.github.com/articles/about-no
 /**
  * @api {POST} /repos/:owner/:repo/pulls createFromIssue
  * @apiName createFromIssue
- * @apiDescription **Note:** To open a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open a pull request.
+ * @apiDescription Draft pull requests are available in public repositories with GitHub Free and GitHub Pro, and in public and private repositories with GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's billing plans](https://help.github.com/articles/github-s-billing-plans) in the GitHub Help documentation.
+
+To open or update a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open or update a pull request.
 
 This endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See "[Abuse rate limits](https://developer.github.com/v3/#abuse-rate-limits)" and "[Dealing with abuse rate limits](https://developer.github.com/v3/guides/best-practices-for-integrators/#dealing-with-abuse-rate-limits)" for details.
 
@@ -4991,7 +5033,9 @@ This endpoint triggers [notifications](https://help.github.com/articles/about-no
 /**
  * @api {PATCH} /repos/:owner/:repo/pulls/:number update
  * @apiName update
- * @apiDescription **Note:** To open a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open a pull request.
+ * @apiDescription Draft pull requests are available in public repositories with GitHub Free and GitHub Pro, and in public and private repositories with GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's billing plans](https://help.github.com/articles/github-s-billing-plans) in the GitHub Help documentation.
+
+To open or update a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open or update a pull request.
 
 <a href="https://developer.github.com/v3/pulls/#update-a-pull-request">REST API doc</a>
  * @apiGroup Pulls
@@ -7830,7 +7874,9 @@ Information about published releases are available to everyone. Only users with 
 /**
  * @api {GET} /repos/:owner/:repo/releases/latest getLatestRelease
  * @apiName getLatestRelease
- * @apiDescription View the latest published full release for the repository. Draft releases and prereleases are not returned by this endpoint.
+ * @apiDescription View the latest published full release for the repository.
+
+The latest release is the most recent non-prerelease, non-draft release, sorted by the `created_at` attribute. The `created_at` attribute is the date of the commit used for the release, and not the date when the release was drafted or published.
 
 <a href="https://developer.github.com/v3/repos/releases/#get-the-latest-release">REST API doc</a>
  * @apiGroup Repos
